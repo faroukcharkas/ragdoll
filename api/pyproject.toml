@@ -7,6 +7,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+semantic-text-splitter = "^0.18.1"
+pydantic = "^2.9.2"
+pydantic-settings = "^2.6.1"
+supabase = "^2.10.0"
+tokenizer = "^3.4.5"
 
 
 [build-system]
