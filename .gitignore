@@ -39,5 +39,5 @@
 **/*next-env.d.ts
 
 # python
-**/*.py
+**/*.pyc
 **/__pycache__

@@ -12,6 +12,7 @@ pydantic = "^2.9.2"
 pydantic-settings = "^2.6.1"
 supabase = "^2.10.0"
 tokenizer = "^3.4.5"
+pinecone = {extras = ["grpc"], version = "^5.4.0"}
 
 
 [build-system]
