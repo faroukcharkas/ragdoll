@@ -56,47 +56,9 @@ async def lifespan(app: FastAPI):
 app: FastAPI = FastAPI(lifespan=lifespan)
 
 
-class Document(BaseModel):
-    id: int
-    title: str
-    body: str
-
-
-async def get_document(supabase_client: AsyncClient, document_id: int) -> Document:
-    assert isinstance(document_id, int), "document_id must be an integer"
-
-    document = (
-        await supabase_client.table("document")
-        .select("*")
-        .eq("id", document_id)
-        .execute()
-    )
-    return Document(
-        id=document.data[0]["id"],
-        title=document.data[0]["title"],
-        body=document.data[0]["body"],
-    )
-
-
-async def split_document(document_text: str):
-    assert isinstance(document_text, str), "document_text must be a string"
-    tokenizer = Tokenizer.from_pretrained("bert-base-uncased")
-    splitter = TextSplitter.from_huggingface_tokenizer(tokenizer, 200)
-    chunks: list[str] = splitter.chunks(document_text)
-    return chunks
-
-
-async def handle_document_chunking(supabase_client: AsyncClient, document_id: int):
-    assert isinstance(document_id, int), "document_id must be an integer"
-    document: Document = await get_document(supabase_client, document_id)
-    chunks: list[str] = await split_document(document.body)
-    for chunk in chunks:
-        await (
-            supabase_client.table("chunk")
-            .insert({"document_id": document_id, "content": chunk, "metadata": {}})
-            .execute()
-        )
-    return chunks
+@app.get("/")
+async def root():
+    return {"message": "Leave me alone!"}
 
 
 app.include_router(document_router)
