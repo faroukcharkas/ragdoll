@@ -29,10 +29,11 @@ async function DocumentGrid({ projectId }: { projectId: number }) {
   );
 }
 
-export default function DocumentsPage({
+export default async function DocumentsPage({
   params,
 }: {
-  params: { projectId: number };
+  params: Promise<{ projectId: number }>;
 }) {
-  return <DocumentGrid projectId={params.projectId} />;
+  const { projectId } = await params;
+  return <DocumentGrid projectId={projectId} />;
 }

@@ -7,13 +7,15 @@ import { useState } from "react";
 
 export default function NewProjectPage() {
   const [name, setName] = useState("");
+  const [pineconeApiKey, setPineconeApiKey] = useState("");
+  const [pineconeIndexName, setPineconeIndexName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
     try {
-      await createProject({ name });
+      await createProject({ name, pineconeApiKey, pineconeIndexName });
     } catch (error) {
       console.error(error);
     } finally {
@@ -32,6 +34,16 @@ export default function NewProjectPage() {
           placeholder="Project Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+        />
+        <Input
+          placeholder="Pinecone API Key"
+          value={pineconeApiKey}
+          onChange={(e) => setPineconeApiKey(e.target.value)}
+        />
+        <Input
+          placeholder="Pinecone Index Name"
+          value={pineconeIndexName}
+          onChange={(e) => setPineconeIndexName(e.target.value)}
         />
         <Button type="submit" disabled={isLoading}>
           {isLoading ? "Creating..." : "Create"}

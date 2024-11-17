@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 
-export default function ProjectPage({
+export default async function ProjectPage({
   params,
 }: {
-  params: { projectId: string };
+  params: Promise<{ projectId: string }>;
 }) {
-  redirect(`/dashboard/projects/${params.projectId}/documents`);
+  const { projectId } = await params;
+  redirect(`/dashboard/projects/${projectId}/documents`);
 }
