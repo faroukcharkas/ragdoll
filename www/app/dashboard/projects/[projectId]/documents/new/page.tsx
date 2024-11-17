@@ -14,13 +14,15 @@ export default function NewDocumentPage({
   const { projectId } = use(params);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [url, setUrl] = useState("");
+  const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
     try {
-      await createDocument({ title, body, projectId });
+      await createDocument({ title, body, url, description, projectId });
     } catch (error) {
       console.error(error);
     } finally {
@@ -45,6 +47,18 @@ export default function NewDocumentPage({
         placeholder="Body"
         value={body}
         onChange={(e) => setBody(e.target.value)}
+      />
+      <Input
+        type="text"
+        placeholder="URL"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+      />
+      <Input
+        type="text"
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
       <Button type="submit" disabled={isLoading}>
         {isLoading ? "Creating..." : "Create"}

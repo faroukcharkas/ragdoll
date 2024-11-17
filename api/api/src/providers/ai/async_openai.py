@@ -11,5 +11,7 @@ class AsyncOpenAIProvider:
         self.client = AsyncOpenAI(api_key=api_key)
 
     async def embed(self, texts: list[str]) -> list[list[float]]:
-        response = await self.client.embeddings.create(input=texts)
+        response = await self.client.embeddings.create(
+            input=texts, model="text-embedding-ada-002"
+        )
         return [embedding.embedding for embedding in response.data]

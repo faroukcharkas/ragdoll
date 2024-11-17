@@ -12,15 +12,16 @@ class Document(BaseModel):
     id: int
     title: str
     body: str
-    url: Optional[str]
-    description: Optional[str]
+    url: Optional[str] = ""
+    project_id: int
+    description: Optional[str] = ""
 
 
 class CreateDocumentInput(BaseModel):
     title: str
     body: str
-    url: Optional[str]
-    description: Optional[str]
+    url: Optional[str] = ""
+    description: Optional[str] = ""
 
 
 class DocumentTable:

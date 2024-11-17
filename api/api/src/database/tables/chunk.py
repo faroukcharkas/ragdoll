@@ -34,17 +34,17 @@ class ChunkTable:
     ) -> None:
         assert len(chunk_vectors) > 0, "Chunk vectors must not be empty"
         assert isinstance(document_id, int), "Document ID must be an integer"
-        chunks: list[CreateChunkInput] = []
+        chunks_to_insert: list[dict] = []
         for chunk_vector in chunk_vectors:
-            chunks.append(
+            chunks_to_insert.append(
                 CreateChunkInput(
                     id=chunk_vector.id,
                     document_id=document_id,
                     content=chunk_vector.metadata.text,
                     metadata=chunk_vector.metadata.model_dump(),
-                )
+                ).model_dump()
             )
-        await self.table.insert(chunks).execute()
+        await self.table.insert(chunks_to_insert).execute()
 
     async def read_using_document_id(self, document_id: int) -> list[Chunk]:
         response = await self.table.select("*").eq("document_id", document_id).execute()
