@@ -5,10 +5,14 @@ import { Document, documentSchema } from "@/schema/documents";
 
 export async function getDocuments(projectId: number): Promise<Document[]> {
   const supabase = await createClient();
+  const currentUser = await supabase.auth.getUser();
+  if (!currentUser) {
+    throw new Error("User not found");
+  }
   const { data, error } = await supabase
     .from("document")
     .select("*")
-    .eq("project_id", projectId);
+    .eq("project_id", projectId)
   if (error) {
     throw error;
   }
