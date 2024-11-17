@@ -1,11 +1,16 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <div>
       <p>Landing Page</p>
-      <Button>Log In</Button>
-      <Button>Sign Up</Button>
+      <Link href="/login">
+        <Button>Log In</Button>
+      </Link>
+      <Link href="/signup">
+        <Button>Sign Up</Button>
+      </Link>
     </div>
   );
 }
