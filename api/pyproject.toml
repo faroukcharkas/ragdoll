@@ -15,6 +15,7 @@ tokenizer = "^3.4.5"
 pinecone = {extras = ["grpc"], version = "^5.4.0"}
 fastapi = {extras = ["standard"], version = "^0.115.5"}
 tokenizers = "^0.20.3"
+openai = "^1.54.4"
 
 
 [build-system]
