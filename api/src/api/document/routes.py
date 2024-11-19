@@ -6,12 +6,12 @@ from pinecone import Pinecone, Vector
 
 # internal
 from .io import DocumentInput
-from api.src.modules.chunking.module import ChunkingModule
-from api.src.models import ChunkMetadata, ChunkVector
-from api.src.database.client import DatabaseClient
-from api.src.database.tables.document import Document
-from api.src.database.tables.chunk import Chunk
-from api.src.database.tables.project import Project
+from src.modules.chunking.module import ChunkingModule
+from src.models import ChunkMetadata, ChunkVector
+from src.database.client import DatabaseClient
+from src.database.tables.document import Document
+from src.database.tables.chunk import Chunk
+from src.database.tables.project import Project
 
 document_router = APIRouter(prefix="/document")
 

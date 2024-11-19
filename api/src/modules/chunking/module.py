@@ -6,9 +6,9 @@ from tokenizers import Tokenizer
 from semantic_text_splitter import TextSplitter
 
 # internal
-from api.src.models import ChunkMetadata, ChunkVector
-from api.src.providers.ai.async_openai import AsyncOpenAIProvider
-from api.src.database.tables.document import Document
+from src.models import ChunkMetadata, ChunkVector
+from src.providers.ai.async_openai import AsyncOpenAIProvider
+from src.database.tables.document import Document
 
 
 class ChunkingModule:

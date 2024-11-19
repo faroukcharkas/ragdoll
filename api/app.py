@@ -10,11 +10,11 @@ from supabase import AsyncClient
 from tokenizers import Tokenizer
 
 # internal
-from api.src.globals.environment import Environment
-from api.src.api.document.routes import document_router
-from api.src.modules.chunking.module import ChunkingModule
-from api.src.providers.ai.async_openai import AsyncOpenAIProvider
-from api.src.database.client import DatabaseClient
+from src.globals.environment import Environment
+from src.api.document.routes import document_router
+from src.modules.chunking.module import ChunkingModule
+from src.providers.ai.async_openai import AsyncOpenAIProvider
+from src.database.client import DatabaseClient
 
 
 def setup_globals(app: FastAPI):

@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from supabase import AsyncClient
 
 # internal
-from api.src.models import ChunkVector
+from src.models import ChunkVector
 
 
 class Chunk(BaseModel):
