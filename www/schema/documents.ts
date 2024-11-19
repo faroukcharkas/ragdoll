@@ -6,6 +6,8 @@ export const documentSchema = z.object({
   created_at: z.string(),
   body: z.string(),
   project_id: z.number(),
+  description: z.string(),
+  url: z.string(),
 });
 
 export type Document = z.infer<typeof documentSchema>;

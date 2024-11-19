@@ -1,8 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { SignUpForm } from "./parts/form";
 import Link from "next/link";
+import { redirectToDashboardIfSignedIn } from "@/actions/auth";
 
-export default function SignUpPage() {
+export default async function SignUpPage() {
+  await redirectToDashboardIfSignedIn();
+
   return (
     <div className="flex flex-col gap-4 max-w-sm w-full">
       <Card className="w-full p-4">

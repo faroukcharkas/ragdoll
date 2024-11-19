@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { redirectToDashboardIfSignedIn } from "@/actions/auth";
 
-export default function Home() {
+export default async function Home() {
+  await redirectToDashboardIfSignedIn();
+
   return (
     <div>
       <p>Landing Page</p>

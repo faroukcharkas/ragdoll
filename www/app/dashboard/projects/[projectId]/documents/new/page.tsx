@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createDocument } from "@/actions/documents";
+import { createDocument, createDocumentAndRedirect } from "@/actions/documents";
 import { useState } from "react";
 import { use } from "react";
 
@@ -22,7 +22,13 @@ export default function NewDocumentPage({
     event.preventDefault();
     setIsLoading(true);
     try {
-      await createDocument({ title, body, url, description, projectId });
+      await createDocumentAndRedirect({
+        title,
+        body,
+        url,
+        description,
+        projectId,
+      });
     } catch (error) {
       console.error(error);
     } finally {

@@ -42,9 +42,10 @@ def delete_chunk_vectors(
     index_name: str,
 ):
     ids_to_delete: list[str] = [chunk.id for chunk in chunks]
-    pinecone_client: Pinecone = Pinecone(api_key=pinecone_api_key)
-    index = pinecone_client.Index(name=index_name)
-    index.delete(ids=ids_to_delete)
+    if len(ids_to_delete) > 0:
+        pinecone_client: Pinecone = Pinecone(api_key=pinecone_api_key)
+        index = pinecone_client.Index(name=index_name)
+        index.delete(ids=ids_to_delete)
 
 
 @document_router.post("/create")
