@@ -11,6 +11,7 @@ export function SignUpForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,9 +29,11 @@ export function SignUpForm() {
       });
       return;
     } else {
+      setIsLoading(true);
       try {
         await signup({ email, password });
       } catch (error) {
+        setIsLoading(false);
         if (error instanceof Error) {
           toast({ title: "Error", description: error.message });
         } else {
@@ -61,7 +64,9 @@ export function SignUpForm() {
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <Button type="submit">Sign Up</Button>
+      <Button type="submit" disabled={isLoading}>
+        {isLoading ? "Signing up..." : "Sign Up"}
+      </Button>
     </form>
   );
 }

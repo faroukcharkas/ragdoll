@@ -10,6 +10,7 @@ import { authFormInputSchema } from "@/schema/auth";
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -21,9 +22,11 @@ export function LoginForm() {
       });
       return;
     } else {
+      setIsLoading(true);
       try {
         await login({ email, password });
       } catch (error) {
+        setIsLoading(false);
         if (error instanceof Error) {
           toast({ title: "Error", description: error.message });
         } else {
@@ -48,7 +51,9 @@ export function LoginForm() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button type="submit">Log In</Button>
+      <Button type="submit" disabled={isLoading}>
+        {isLoading ? "Logging in..." : "Log In"}
+      </Button>
     </form>
   );
 }
