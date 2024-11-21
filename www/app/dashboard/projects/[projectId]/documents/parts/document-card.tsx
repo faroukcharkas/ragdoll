@@ -15,7 +15,10 @@ export default function DocumentCard({ document }: { document: Document }) {
           <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-muted to-transparent"></div>
         </div>
         <div className="h-28 text-ellipsis">
-          <p className="text-sm font-semibold">{document.title}</p>
+          <p className="text-sm font-semibold font-display">{document.title}</p>
+          <p className="text-xs text-muted-foreground">
+            {document.description}
+          </p>
         </div>
       </Card>
     </Link>
