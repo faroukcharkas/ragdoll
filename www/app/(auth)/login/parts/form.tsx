@@ -35,7 +35,7 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <p className="text-lg font-semibold text-center">Log In</p>
+      <p className="text-xl font-semibold font-display text-center">Log In</p>
       <Input
         type="email"
         placeholder="Email"

@@ -42,7 +42,7 @@ export function SignUpForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <p className="text-lg font-semibold text-center">Sign Up</p>
+      <p className="text-xl font-semibold font-display text-center">Sign Up</p>
       <Input
         type="email"
         placeholder="Email"

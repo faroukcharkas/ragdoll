@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import DocumentCard from "./parts/document-card";
 import { NewDocument } from "./parts/new-document";
+import { DashboardHeader } from "@/components/dashboard/header/header";
 
 function DocumentGridSkeleton() {
   return (
@@ -35,5 +36,15 @@ export default async function DocumentsPage({
   params: Promise<{ projectId: number }>;
 }) {
   const { projectId } = await params;
-  return <DocumentGrid projectId={projectId} />;
+  return (
+    <>
+      <DashboardHeader
+        breadcrumbs={[
+          { label: "Projects", href: "/dashboard/projects" },
+          { label: "Documents", href: "" },
+        ]}
+      />
+      <DocumentGrid projectId={projectId} />
+    </>
+  );
 }

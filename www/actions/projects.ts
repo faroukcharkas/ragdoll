@@ -13,6 +13,7 @@ export async function getProjects(): Promise<Project[]> {
   if (error) {
     throw error;
   }
+  console.log(data);
   return projectSchema.array().parse(data);
 }
 
