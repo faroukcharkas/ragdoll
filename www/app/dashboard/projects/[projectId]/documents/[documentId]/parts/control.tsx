@@ -14,9 +14,10 @@ export default function Control({
   const [loading, setLoading] = useState(false);
 
   return (
-    <div>
+    <div className="flex flex-row gap-4 justify-start mb-4">
       <Button
         variant="destructive"
+        size="sm"
         disabled={loading}
         onClick={() => {
           setLoading(true);

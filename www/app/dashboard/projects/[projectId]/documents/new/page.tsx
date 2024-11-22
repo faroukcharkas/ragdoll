@@ -1,5 +1,17 @@
 "use client";
 
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createDocument, createDocumentAndRedirect } from "@/actions/documents";
@@ -8,27 +20,46 @@ import { use } from "react";
 import { DashboardHeader } from "@/components/dashboard/header/header";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function NewDocumentPage({
-  params,
-}: {
-  params: Promise<{ projectId: number }>;
-}) {
-  const { projectId } = use(params);
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [url, setUrl] = useState("");
-  const [description, setDescription] = useState("");
+const formSchema = z.object({
+  title: z.string().min(1),
+  body: z.string().min(1),
+  url: z.string().min(1),
+  description: z.string().min(1),
+});
+
+function NewDocumentFormHeader() {
+  return (
+    <div className="flex flex-col gap-2">
+      <h1 className="text-2xl font-bold">New Document</h1>
+      <p className="text-sm text-muted-foreground">Create a new document</p>
+    </div>
+  );
+}
+
+function NewDocumentFormFields({ children }: { children: React.ReactNode }) {
+  return <div className="flex flex-col gap-2">{children}</div>;
+}
+
+function NewDocumentForm({ projectId }: { projectId: number }) {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      body: "",
+      url: "",
+      description: "",
+    },
+  });
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
       await createDocumentAndRedirect({
-        title,
-        body,
-        url,
-        description,
+        title: data.title,
+        body: data.body,
+        url: data.url,
+        description: data.description,
         projectId,
       });
     } catch (error) {
@@ -39,6 +70,90 @@ export default function NewDocumentPage({
   }
 
   return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="max-w-2xl w-full flex flex-col gap-10"
+      >
+        <NewDocumentFormHeader />
+        <NewDocumentFormFields>
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="Title" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This will be used as the title of the document.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="body"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Body</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Body" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This will be used as the body of the document.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="url"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>URL</FormLabel>
+                <FormControl>
+                  <Input placeholder="URL" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This will be used as the URL of the document.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input placeholder="Description" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This will be used as the description of the document.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+        </NewDocumentFormFields>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? "Creating..." : "Create"}
+        </Button>
+      </form>
+    </Form>
+  );
+}
+
+export default function NewDocumentPage({
+  params,
+}: {
+  params: Promise<{ projectId: number }>;
+}) {
+  const { projectId } = use(params);
+
+  return (
     <>
       <DashboardHeader
         breadcrumbs={[
@@ -47,69 +162,15 @@ export default function NewDocumentPage({
             label: "Documents",
             href: `/dashboard/projects/${projectId}/documents`,
           },
-          { label: "New", href: "" },
+          {
+            label: "New Document",
+            href: `/dashboard/projects/${projectId}/documents/new`,
+          },
         ]}
       />
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-bold font-display">New Document</h1>
-          <p className="text-sm text-muted-foreground">
-            Create a new document for Project {projectId}
-          </p>
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium font-display">Title</label>
-          <Input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <p className="text-xs text-muted-foreground">
-            This will be used as the title of the document.
-          </p>
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium font-display">Body</label>
-          <Textarea
-            placeholder="Body"
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-          />
-          <p className="text-xs text-muted-foreground">
-            This piece of text is what will be chunked and embedded.
-          </p>
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium font-display">URL</label>
-          <Input
-            type="text"
-            placeholder="URL"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-          <p className="text-xs text-muted-foreground">
-            Citations will use this URL.
-          </p>
-        </div>
-        <div className="flex flex-col gap-2 mb-6">
-          <label className="text-sm font-medium font-display">
-            Description
-          </label>
-          <Input
-            type="text"
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <p className="text-xs text-muted-foreground">
-            This will give the AI context about the chunk.
-          </p>
-        </div>
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Creating..." : "Create"}
-        </Button>
-      </form>
+      <div className="flex gap-4 justify-center">
+        <NewDocumentForm projectId={projectId} />
+      </div>
     </>
   );
 }

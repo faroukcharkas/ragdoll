@@ -1,25 +1,25 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Document } from "@/schema/documents";
+import { Edit } from "lucide-react";
 
 export default function DocumentCard({ document }: { document: Document }) {
   return (
     <Link
       href={`/dashboard/projects/${document.project_id}/documents/${document.id}`}
     >
-      <Card className="hover:bg-muted hover:shadow-md cursor-pointer h-[300px] flex flex-col gap-4 p-4 overflow-hidden">
-        <div className="flex-1 bg-muted rounded-md shadow-inner p-4 overflow-hidden relative">
-          <p className="text-xs overflow-hidden text-muted-foreground">
-            {document.body}
+      <Card className="hover:bg-muted hover:shadow-md cursor-pointer h-64 flex flex-col overflow-hidden">
+        <CardHeader className="flex justify-between flex-row items-start gap-2">
+          <p className="text-sm font-semibold font-display text-ellipsis">
+            {document.title}
           </p>
-          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-muted to-transparent"></div>
-        </div>
-        <div className="h-28 text-ellipsis">
-          <p className="text-sm font-semibold font-display">{document.title}</p>
-          <p className="text-xs text-muted-foreground">
+          <Edit className="flex-none w-4 h-4 !m-0" />
+        </CardHeader>
+        <CardContent className="flex-1 text-ellipsis">
+          <p className="text-xs text-muted-foreground text-ellipsis">
             {document.description}
           </p>
-        </div>
+        </CardContent>
       </Card>
     </Link>
   );

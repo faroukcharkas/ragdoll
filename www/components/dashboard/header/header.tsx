@@ -27,8 +27,11 @@ export function DashboardHeader({
           <BreadcrumbList>
             {breadcrumbs.map((breadcrumb, index) => (
               <>
-                <BreadcrumbItem key={index} className="hidden md:block">
-                  <BreadcrumbLink href={breadcrumb.label}>
+                <BreadcrumbItem
+                  key={breadcrumb.href}
+                  className="hidden md:block"
+                >
+                  <BreadcrumbLink href={breadcrumb.href}>
                     {breadcrumb.label}
                   </BreadcrumbLink>
                 </BreadcrumbItem>

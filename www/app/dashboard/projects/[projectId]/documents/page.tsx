@@ -8,23 +8,35 @@ import { DashboardHeader } from "@/components/dashboard/header/header";
 function DocumentGridSkeleton() {
   return (
     <>
-      <Skeleton className="h-[200px]" />
-      <Skeleton className="h-[200px]" />
-      <Skeleton className="h-[200px]" />
-      <Skeleton className="h-[200px]" />
+      <Skeleton className="h-64" />
+      <Skeleton className="h-64" />
+      <Skeleton className="h-64" />
+      <Skeleton className="h-64" />
+      <Skeleton className="h-64" />
+      <Skeleton className="h-64" />
+      <Skeleton className="h-64" />
+      <Skeleton className="h-64" />
+    </>
+  );
+}
+
+async function FetchedDocuments({ projectId }: { projectId: number }) {
+  const documents = await getDocuments(projectId);
+  return (
+    <>
+      {documents.map((document) => (
+        <DocumentCard key={document.id} document={document} />
+      ))}
     </>
   );
 }
 
 async function DocumentGrid({ projectId }: { projectId: number }) {
-  const documents = await getDocuments(projectId);
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <NewDocument projectId={projectId} />
       <Suspense fallback={<DocumentGridSkeleton />}>
-        <NewDocument projectId={projectId} />
-        {documents.map((document) => (
-          <DocumentCard key={document.id} document={document} />
-        ))}
+        <FetchedDocuments projectId={projectId} />
       </Suspense>
     </div>
   );
