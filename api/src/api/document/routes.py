@@ -5,7 +5,7 @@ from fastapi import APIRouter, Request
 from pinecone import Pinecone, Vector
 
 # internal
-from .io import DocumentInput
+from .io import CreateDocumentInput, DocumentInput
 from src.modules.chunking.module import ChunkingModule
 from src.models import ChunkMetadata, ChunkVector
 from src.database.client import DatabaseClient
@@ -49,7 +49,7 @@ def delete_chunk_vectors(
 
 
 @document_router.post("/create")
-async def create(request: Request, input: DocumentInput):
+async def create(request: Request, input: CreateDocumentInput):
     database_client: DatabaseClient = request.app.state.database_client
     chunking_module: ChunkingModule = request.app.state.chunking_module
 
@@ -62,7 +62,7 @@ async def create(request: Request, input: DocumentInput):
     )
 
     # 2. Chunk the document
-    chunks: list[ChunkMetadata] = await chunking_module.split(document=document)
+    chunks: list[ChunkMetadata] = await chunking_module.split(document=document, )
     vectors: list[ChunkVector] = await chunking_module.embed(chunks=chunks)
 
     # 3. Create the chunks in the database

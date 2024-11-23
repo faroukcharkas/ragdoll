@@ -53,7 +53,14 @@ export default async function DocumentsPage({
       <DashboardHeader
         breadcrumbs={[
           { label: "Projects", href: "/dashboard/projects" },
-          { label: "Documents", href: "" },
+          {
+            label: "Project",
+            href: `/dashboard/projects/${projectId}`,
+          },
+          {
+            label: "Documents",
+            href: `/dashboard/projects/${projectId}/documents`,
+          },
         ]}
       />
       <DocumentGrid projectId={projectId} />

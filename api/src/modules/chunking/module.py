@@ -9,17 +9,25 @@ from semantic_text_splitter import TextSplitter
 from src.models import ChunkMetadata, ChunkVector
 from src.providers.ai.async_openai import AsyncOpenAIProvider
 from src.database.tables.document import Document
+from src.enums import SplitType
 
 
 class ChunkingModule:
     def __init__(self, async_openai: AsyncOpenAIProvider):
         self.async_openai = async_openai
 
-    async def split(self, document: Document) -> list[ChunkMetadata]:
+    async def split(
+        self, document: Document, split_type: SplitType
+    ) -> list[ChunkMetadata]:
         # 1. Split the document into chunks
         tokenizer = Tokenizer.from_pretrained("bert-base-uncased")
         splitter = TextSplitter.from_huggingface_tokenizer(tokenizer, 200)
-        chunks: list[str] = splitter.chunks(document.body)
+        chunks: list[str]
+        if split_type == SplitType.SENTENCE:
+            chunks: list[str] = document.body.split(".")
+        else:
+            # Semantic splitting is the default
+            chunks: list[str] = splitter.chunks(document.body)
         # 2. Create metadata for each chunk
         split_result: list[ChunkMetadata] = []
         chunk: str

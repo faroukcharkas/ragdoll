@@ -17,6 +17,15 @@ export async function getProjects(): Promise<Project[]> {
   return projectSchema.array().parse(data);
 }
 
+export async function getProject(projectId: string): Promise<Project> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("project").select("*").eq("id", projectId).single();
+  if (error) {
+    throw error;
+  }
+  return projectSchema.parse(data);
+}
+
 export async function createProject({ name, pineconeApiKey, pineconeIndexName }: { name: string, pineconeApiKey: string, pineconeIndexName: string }) {
   const supabase = await createClient();
   const currentUser = await supabase.auth.getUser();

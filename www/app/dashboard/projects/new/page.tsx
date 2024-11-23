@@ -27,7 +27,7 @@ const formSchema = z.object({
 function NewProjectFormHeader() {
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-2xl font-bold">New Project</h1>
+      <h1 className="text-2xl font-bold font-display">New Project</h1>
       <p className="text-sm text-muted-foreground">
         Create a new project to get started.
       </p>

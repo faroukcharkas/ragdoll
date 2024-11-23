@@ -1,13 +1,8 @@
 # builtin
 from contextlib import asynccontextmanager
-from asyncio import create_task
 
 # external
-from fastapi import FastAPI, Request
-from pydantic import BaseModel
-from semantic_text_splitter import TextSplitter
-from supabase import AsyncClient
-from tokenizers import Tokenizer
+from fastapi import FastAPI
 
 # internal
 from src.globals.environment import Environment

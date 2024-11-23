@@ -19,18 +19,27 @@ import { useState } from "react";
 import { use } from "react";
 import { DashboardHeader } from "@/components/dashboard/header/header";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectItem,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectGroup,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   title: z.string().min(1),
   body: z.string().min(1),
   url: z.string().min(1),
   description: z.string().min(1),
+  splitType: z.enum(["SENTENCE", "SEMANTIC"]),
 });
 
 function NewDocumentFormHeader() {
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-2xl font-bold">New Document</h1>
+      <h1 className="text-2xl font-bold font-display">New Document</h1>
       <p className="text-sm text-muted-foreground">Create a new document</p>
     </div>
   );
@@ -61,6 +70,7 @@ function NewDocumentForm({ projectId }: { projectId: number }) {
         url: data.url,
         description: data.description,
         projectId,
+        splitType: data.splitType,
       });
     } catch (error) {
       console.error(error);
@@ -134,6 +144,28 @@ function NewDocumentForm({ projectId }: { projectId: number }) {
                 <FormDescription>
                   This will be used as the description of the document.
                 </FormDescription>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="splitType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Split Type</FormLabel>
+                <FormControl>
+                  <Select {...field}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a split type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="SENTENCE">Sentence</SelectItem>
+                        <SelectItem value="SEMANTIC">Semantic</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
               </FormItem>
             )}
           />
