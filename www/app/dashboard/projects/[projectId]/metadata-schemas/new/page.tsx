@@ -28,7 +28,7 @@ export default async function NewMetadataSchemaPage({
       />
       <div className="flex justify-center">
         <div className="flex flex-col gap-8 w-full max-w-2xl">
-          <NewMetadataSchemaForm />
+          <NewMetadataSchemaForm projectId={projectId} />
         </div>
       </div>
     </>

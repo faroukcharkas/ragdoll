@@ -166,6 +166,9 @@ function NewDocumentForm({ projectId }: { projectId: number }) {
                     </SelectContent>
                   </Select>
                 </FormControl>
+                <FormDescription>
+                  This will be used to split the document into chunks.
+                </FormDescription>
               </FormItem>
             )}
           />

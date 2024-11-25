@@ -1,6 +1,7 @@
 import { DashboardHeader } from "@/components/dashboard/header/header";
 import {
   Table,
+  TableBody,
   TableCell,
   TableHead,
   TableHeader,
@@ -10,7 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { getApiKeys } from "@/actions/api-keys";
 import { ApiKey } from "@/schema/api-keys";
-import { Copy } from "lucide-react";
+import NewApiKey from "./parts/new-api-key";
 
 function ApiKeyTableRowSkeleton() {
   return (
@@ -50,7 +51,7 @@ function ApiKeyTableRow({ apiKey }: { apiKey: ApiKey }) {
   );
 }
 
-async function FetchedApiKeys({ projectId }: { projectId: string }) {
+async function FetchedApiKeys({ projectId }: { projectId: number }) {
   const apiKeys: ApiKey[] = await getApiKeys(projectId);
   return (
     <>
@@ -61,7 +62,7 @@ async function FetchedApiKeys({ projectId }: { projectId: string }) {
   );
 }
 
-async function ApiKeysTable({ projectId }: { projectId: string }) {
+async function ApiKeysTable({ projectId }: { projectId: number }) {
   return (
     <Table>
       <TableHeader>
@@ -70,9 +71,11 @@ async function ApiKeysTable({ projectId }: { projectId: string }) {
           <TableHead>Preview</TableHead>
         </TableRow>
       </TableHeader>
-      <Suspense fallback={<ApiKeysTableSkeleton />}>
-        <FetchedApiKeys projectId={projectId} />
-      </Suspense>
+      <TableBody>
+        <Suspense fallback={<ApiKeysTableSkeleton />}>
+          <FetchedApiKeys projectId={projectId} />
+        </Suspense>
+      </TableBody>
     </Table>
   );
 }
@@ -80,7 +83,7 @@ async function ApiKeysTable({ projectId }: { projectId: string }) {
 export default async function ApiKeysPage({
   params,
 }: {
-  params: { projectId: string };
+  params: { projectId: number };
 }) {
   const { projectId } = params;
   return (
@@ -96,7 +99,7 @@ export default async function ApiKeysPage({
         ]}
       />
       <div className="flex items-center justify-end">
-        {/* <NewApiKey projectId={projectId} /> */}
+        <NewApiKey projectId={projectId} />
       </div>
       <ApiKeysTable projectId={projectId} />
     </>

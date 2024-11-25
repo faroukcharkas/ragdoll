@@ -21,6 +21,7 @@ import { MetadataSchemaField } from "@/schema/metadata-schemas";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { createMetadataSchemaAndRedirect } from "@/actions/metadata-schemas";
 
 function NewMetadataSchemaHeader() {
   return (
@@ -52,6 +53,7 @@ function NewMetadataSchemaFields({
       <TableCell>
         <Input
           value={field.key}
+          className="font-mono"
           onChange={(e) => onKeyChange(index, e.target.value)}
         />
       </TableCell>
@@ -68,6 +70,8 @@ function NewMetadataSchemaFields({
           <SelectContent>
             <SelectItem value="TEXT_INPUT">Text Input</SelectItem>
             <SelectItem value="ORDER_IN_DOCUMENT">Order in Document</SelectItem>
+            <SelectItem value="PREVIOUS_CHUNK">Previous Chunk</SelectItem>
+            <SelectItem value="NEXT_CHUNK">Next Chunk</SelectItem>
           </SelectContent>
         </Select>
       </TableCell>
@@ -80,9 +84,14 @@ function NewMetadataSchemaFields({
   ));
 }
 
-export default function NewMetadataSchemaForm() {
+export default function NewMetadataSchemaForm({
+  projectId,
+}: {
+  projectId: string;
+}) {
   const [fields, setFields] = useState<MetadataSchemaField[]>([]);
   const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function removeField(index: number) {
     setFields(fields.filter((_, i) => i !== index));
@@ -98,6 +107,17 @@ export default function NewMetadataSchemaForm() {
     setFields(
       fields.map((field, i) => (i === index ? { ...field, key } : field))
     );
+  }
+
+  async function handleCreate() {
+    setIsLoading(true);
+    try {
+      await createMetadataSchemaAndRedirect(parseInt(projectId), fields, name);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -137,7 +157,7 @@ export default function NewMetadataSchemaForm() {
           />
         </TableHeader>
       </Table>
-      <Button>Create Schema</Button>
+      <Button onClick={handleCreate}>Create Schema</Button>
     </>
   );
 }

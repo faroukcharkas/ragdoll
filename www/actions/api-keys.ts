@@ -3,7 +3,7 @@
 import { apiKeySchema, ApiKey } from "@/schema/api-keys";
 import { createClient } from "@/utils/supabase/server";
 
-export async function getApiKeys(projectId: string): Promise<ApiKey[]> {
+export async function getApiKeys(projectId: number): Promise<ApiKey[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("api_key")

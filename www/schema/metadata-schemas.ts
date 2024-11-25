@@ -2,7 +2,12 @@ import { z } from "zod";
 
 export const metadataSchemaFieldSchema = z.object({
   key: z.string(),
-  value: z.enum(["TEXT_INPUT", "ORDER_IN_DOCUMENT"]),
+  value: z.enum([
+    "TEXT_INPUT",
+    "ORDER_IN_DOCUMENT",
+    "PREVIOUS_CHUNK",
+    "NEXT_CHUNK",
+  ]),
 });
 
 export type MetadataSchemaField = z.infer<typeof metadataSchemaFieldSchema>;

@@ -1,6 +1,7 @@
 import { DashboardHeader } from "@/components/dashboard/header/header";
 import {
   Table,
+  TableBody,
   TableCell,
   TableHead,
   TableHeader,
@@ -9,7 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { getMetadataSchemas } from "@/actions/metadata-schemas";
-import { MetadataSchema } from "@/schema/metadata-schemas";
+import { MetadataSchema, MetadataSchemaField } from "@/schema/metadata-schemas";
 import NewMetadataSchema from "./parts/new-metadata-schema";
 
 function MetadataSchemaTableRowSkeleton() {
@@ -43,13 +44,20 @@ function MetadataSchemaTableRow({
   return (
     <TableRow>
       <TableCell>{metadataSchema.name}</TableCell>
-      <TableCell>{metadataSchema.schema}</TableCell>
+      <TableCell>
+        {metadataSchema.schema.map((field: MetadataSchemaField) => (
+          <div className="font-mono" key={field.key}>
+            {field.key}: {field.value}
+          </div>
+        ))}
+      </TableCell>
     </TableRow>
   );
 }
 
 async function FetchedMetadataSchemas({ projectId }: { projectId: number }) {
   const metadataSchemas: MetadataSchema[] = await getMetadataSchemas(projectId);
+  console.log(metadataSchemas);
   return (
     <>
       {metadataSchemas.map((metadataSchema) => (
@@ -71,9 +79,11 @@ async function MetadataSchemasTable({ projectId }: { projectId: number }) {
           <TableHead>Schema</TableHead>
         </TableRow>
       </TableHeader>
-      <Suspense fallback={<MetadataSchemaTableSkeleton />}>
-        <FetchedMetadataSchemas projectId={projectId} />
-      </Suspense>
+      <TableBody>
+        <Suspense fallback={<MetadataSchemaTableSkeleton />}>
+          <FetchedMetadataSchemas projectId={projectId} />
+        </Suspense>
+      </TableBody>
     </Table>
   );
 }

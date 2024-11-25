@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Asap, Inter, Recursive, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -8,7 +8,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const asap = Asap({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
 });
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${inter.className} antialiased`}
+        className={`${inter.variable} ${asap.variable} ${inter.className} antialiased`}
       >
         {children}
         <Toaster />
