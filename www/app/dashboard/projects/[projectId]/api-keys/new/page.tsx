@@ -4,9 +4,9 @@ import NewApiKeyForm from "./parts/form";
 export default async function NewApiKeyPage({
   params,
 }: {
-  params: { projectId: number };
+  params: Promise<{ projectId: number }>;
 }) {
-  const { projectId } = params;
+  const { projectId } = await params;
   return (
     <>
       <DashboardHeader
