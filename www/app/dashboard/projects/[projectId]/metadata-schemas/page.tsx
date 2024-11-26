@@ -91,7 +91,7 @@ async function MetadataSchemasTable({ projectId }: { projectId: number }) {
 export default async function MetadataSchemasPage({
   params,
 }: {
-  params: { projectId: number };
+  params: Promise<{ projectId: number }>;
 }) {
   const { projectId } = await params;
   return (

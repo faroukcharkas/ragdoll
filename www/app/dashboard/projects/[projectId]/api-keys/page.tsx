@@ -83,9 +83,9 @@ async function ApiKeysTable({ projectId }: { projectId: number }) {
 export default async function ApiKeysPage({
   params,
 }: {
-  params: { projectId: number };
+  params: Promise<{ projectId: number }>;
 }) {
-  const { projectId } = params;
+  const { projectId } = await params;
   return (
     <>
       <DashboardHeader
