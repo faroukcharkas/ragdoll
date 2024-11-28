@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sidebar";
 import { MainGroup } from "./parts/main-group";
 import { UserMenu } from "./parts/user-menu";
+import { useParams } from "next/navigation";
 const data = {
   user: {
     name: "User Settings",
@@ -40,18 +41,18 @@ const data = {
       icon: SquareTerminal,
       isActive: true,
       items: [
-        // {
-        //   title: "History",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Starred",
-        //   url: "#",
-        // },
-        // {
-        //   title: "Settings",
-        //   url: "#",
-        // },
+        {
+          title: "Documents",
+          url: "#",
+        },
+        {
+          title: "Metadata Schemas",
+          url: "#",
+        },
+        {
+          title: "API Keys",
+          url: "#",
+        },
       ],
     },
   ],
@@ -60,16 +61,15 @@ const data = {
 export function DashboardSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const params = useParams();
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link href="#">
-                <Image src={Logo} alt="Logo" width={40} height={40} />
-              </Link>
-            </SidebarMenuButton>
+          <SidebarMenuItem className="flex justify-center">
+            <Link href="/dashboard">
+              <Image src={Logo} alt="Logo" width={36} height={36} />
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

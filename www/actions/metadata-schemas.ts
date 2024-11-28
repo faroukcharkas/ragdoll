@@ -8,7 +8,10 @@ import {
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-export async function getMetadataSchemas(projectId: number): Promise<MetadataSchema[]> {
+export async function getMetadataSchemas(
+  projectId: number,
+): Promise<MetadataSchema[]> {
+  console.log("Getting metadata schemas for project", projectId);
   const supabase = await createClient();
   const currentUser = await supabase.auth.getUser();
   if (!currentUser) {

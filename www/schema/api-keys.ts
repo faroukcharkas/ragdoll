@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const apiKeySchema = z.object({
-  id: z.string(),
+  id: z.number(),
   name: z.string(),
   preview: z.string(),
 });

@@ -1,6 +1,17 @@
 "use client";
 
-import { Plus, Trash } from "lucide-react";
+import {
+  ArrowDown01,
+  ArrowRight,
+  ArrowLeft,
+  Plus,
+  Text,
+  Trash,
+  CircleChevronLeft,
+  CircleChevronRight,
+  Circle,
+  ArrowUpDown,
+} from "lucide-react";
 import {
   Select,
   SelectTrigger,
@@ -16,45 +27,57 @@ import {
   TableHeader,
   TableCaption,
   TableCell,
+  TableBody,
 } from "@/components/ui/table";
-import { MetadataSchemaField } from "@/schema/metadata-schemas";
+import {
+  MetadataSchemaField,
+  metadataSchemaFieldSchema,
+} from "@/schema/metadata-schemas";
+import {
+  Form,
+  FormControl,
+  FormLabel,
+  FormField,
+  FormItem,
+} from "@/components/ui/form";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { createMetadataSchemaAndRedirect } from "@/actions/metadata-schemas";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  useFieldArray,
+  UseFieldArrayRemove,
+  UseFieldArrayAppend,
+  useForm,
+} from "react-hook-form";
+import {
+  FormFields,
+  FormHeader,
+  FormSubtitle,
+  FormTitle,
+} from "@/components/form";
 
-function NewMetadataSchemaHeader() {
-  return (
-    <div className="flex flex-col gap-2">
-      <h1 className="text-2xl font-bold font-display">New Metadata Schema</h1>
-      <p className="text-sm text-muted-foreground">
-        Create a new metadata schema
-      </p>
-    </div>
-  );
-}
-
-function NewMetadataSchemaFields({
-  fields,
+function MetadataSchemaFieldRow({
+  field,
+  index,
+  onNameChange,
+  onValueChange,
   removeField,
-  onFieldKeyChange: onKeyChange,
-  onFieldValueChange: onValueChange,
 }: {
-  fields: MetadataSchemaField[];
+  field: MetadataSchemaField;
+  index: number;
   removeField: (index: number) => void;
-  onFieldKeyChange: (index: number, key: string) => void;
-  onFieldValueChange: (
-    index: number,
-    value: MetadataSchemaField["value"]
-  ) => void;
+  onNameChange: (index: number, name: string) => void;
+  onValueChange: (index: number, value: MetadataSchemaField["value"]) => void;
 }) {
-  return fields.map((field, index) => (
-    <TableRow key={index}>
+  return (
+    <TableRow>
       <TableCell>
         <Input
-          value={field.key}
-          className="font-mono"
-          onChange={(e) => onKeyChange(index, e.target.value)}
+          value={field.name}
+          placeholder="e.g. My Field"
+          onChange={(e) => onNameChange(index, e.target.value)}
         />
       </TableCell>
       <TableCell>
@@ -68,51 +91,139 @@ function NewMetadataSchemaFields({
             <SelectValue placeholder="Select a value" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="TEXT_INPUT">Text Input</SelectItem>
-            <SelectItem value="ORDER_IN_DOCUMENT">Order in Document</SelectItem>
-            <SelectItem value="PREVIOUS_CHUNK">Previous Chunk</SelectItem>
-            <SelectItem value="NEXT_CHUNK">Next Chunk</SelectItem>
+            <SelectItem value="CUSTOM_TEXT">
+              <div className="flex items-center gap-2">
+                <Text className="w-4 h-4" />
+                Custom Text
+              </div>
+            </SelectItem>
+            <SelectItem value="ORDER_IN_DOCUMENT">
+              <div className="flex items-center gap-2">
+                <ArrowDown01 className="w-4 h-4" />
+                Order in Document
+              </div>
+            </SelectItem>
+            <SelectItem value="PREVIOUS_CHUNK_TEXT">
+              <div className="flex items-center gap-2">
+                <CircleChevronLeft className="w-4 h-4" />
+                Previous Chunk
+              </div>
+            </SelectItem>
+            <SelectItem value="NEXT_CHUNK_TEXT">
+              <div className="flex items-center gap-2">
+                <CircleChevronRight className="w-4 h-4" />
+                Next Chunk
+              </div>
+            </SelectItem>
+            <SelectItem value="CURRENT_CHUNK_TEXT">
+              <div className="flex items-center gap-2">
+                <Text className="w-4 h-4" />
+                This Chunk
+              </div>
+            </SelectItem>
           </SelectContent>
         </Select>
       </TableCell>
       <TableCell>
-        <Button variant="outline" onClick={() => removeField(index)}>
+        <Button
+          variant="outline"
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            e.preventDefault();
+            removeField(index);
+          }}
+        >
           <Trash className="w-4 h-4" />
         </Button>
       </TableCell>
     </TableRow>
-  ));
+  );
 }
+
+function MetadataSchemaFieldRows({
+  fields,
+  appendField,
+  removeField,
+  onNameChange,
+  onValueChange,
+}: {
+  fields: MetadataSchemaField[];
+  appendField: UseFieldArrayAppend<
+    { name: string; fields: MetadataSchemaField[] },
+    "fields"
+  >;
+  removeField: UseFieldArrayRemove;
+  onNameChange: (index: number, name: string) => void;
+  onValueChange: (index: number, value: MetadataSchemaField["value"]) => void;
+}) {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Value</TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {fields.map((field, index) => (
+          <MetadataSchemaFieldRow
+            key={index}
+            field={field}
+            index={index}
+            onNameChange={onNameChange}
+            onValueChange={onValueChange}
+            removeField={removeField}
+          />
+        ))}
+      </TableBody>
+      <TableCaption>
+        <Button
+          variant="outline"
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            e.preventDefault();
+            appendField({ name: "", value: "CUSTOM_TEXT" });
+          }}
+        >
+          <Plus className="w-4 h-4" />
+          Add Field
+        </Button>
+      </TableCaption>
+    </Table>
+  );
+}
+
+const formSchema = z.object({
+  name: z.string().min(1),
+  fields: z.array(metadataSchemaFieldSchema).min(1),
+});
 
 export default function NewMetadataSchemaForm({
   projectId,
 }: {
   projectId: string;
 }) {
-  const [fields, setFields] = useState<MetadataSchemaField[]>([]);
-  const [name, setName] = useState("");
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      fields: [],
+    },
+  });
+  const { fields, append, remove, update } = useFieldArray({
+    control: form.control,
+    name: "fields",
+  });
   const [isLoading, setIsLoading] = useState(false);
 
-  function removeField(index: number) {
-    setFields(fields.filter((_, i) => i !== index));
-  }
-
-  function onValueChange(index: number, value: MetadataSchemaField["value"]) {
-    setFields(
-      fields.map((field, i) => (i === index ? { ...field, value } : field))
-    );
-  }
-
-  function onKeyChange(index: number, key: string) {
-    setFields(
-      fields.map((field, i) => (i === index ? { ...field, key } : field))
-    );
-  }
-
-  async function handleCreate() {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    console.log(data);
     setIsLoading(true);
     try {
-      await createMetadataSchemaAndRedirect(parseInt(projectId), fields, name);
+      await createMetadataSchemaAndRedirect(
+        parseInt(projectId),
+        data.fields,
+        data.name
+      );
     } catch (error) {
       console.error(error);
     } finally {
@@ -120,44 +231,61 @@ export default function NewMetadataSchemaForm({
     }
   }
 
+  async function onNameChange(index: number, name: string) {
+    update(index, { name, value: fields[index].value });
+  }
+
+  async function onValueChange(
+    index: number,
+    value: MetadataSchemaField["value"]
+  ) {
+    update(index, { name: fields[index].name, value });
+  }
+
   return (
-    <>
-      <NewMetadataSchemaHeader />
-      <div className="flex flex-col gap-2">
-        <Label>Schema Name</Label>
-        <Input
-          placeholder="e.g. Lecture Document"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <Table>
-        <TableCaption>
-          <Button
-            variant="outline"
-            onClick={() =>
-              setFields([...fields, { key: "New Field", value: "TEXT_INPUT" }])
-            }
-          >
-            <Plus className="w-4 h-4" />
-            Add Field
-          </Button>
-        </TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Key</TableHead>
-            <TableHead>Value</TableHead>
-            <TableHead></TableHead>
-          </TableRow>
-          <NewMetadataSchemaFields
-            fields={fields}
-            removeField={removeField}
-            onFieldKeyChange={onKeyChange}
-            onFieldValueChange={onValueChange}
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="max-w-2xl w-full flex flex-col gap-10"
+      >
+        <FormHeader>
+          <FormTitle>New Metadata Schema</FormTitle>
+          <FormSubtitle>Create a new metadata schema</FormSubtitle>
+        </FormHeader>
+        <FormFields>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Schema Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g. Lecture Document" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
           />
-        </TableHeader>
-      </Table>
-      <Button onClick={handleCreate}>Create Schema</Button>
-    </>
+          <FormField
+            control={form.control}
+            name="fields"
+            render={() => (
+              <FormItem>
+                <FormLabel>Fields</FormLabel>
+                <MetadataSchemaFieldRows
+                  fields={fields}
+                  appendField={append}
+                  removeField={remove}
+                  onNameChange={onNameChange}
+                  onValueChange={onValueChange}
+                />
+              </FormItem>
+            )}
+          />
+        </FormFields>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? "Creating..." : "Create Schema"}
+        </Button>
+      </form>
+    </Form>
   );
 }

@@ -71,8 +71,8 @@ export async function createDocument({ title, body, url, description, projectId,
   return data;
 }
 
-export async function createDocumentAndRedirect({ title, body, url, description, projectId, splitType }: { title: string, body: string, url: string, description: string, projectId: number, splitType: string }) {
-  const document = await createDocument({ title, body, url, description, projectId, splitType });
+export async function createDocumentAndRedirect({ body, projectId }: { body: string, projectId: number }) {
+  const document = await createDocument({ body, projectId });
   redirect(`/dashboard/projects/${projectId}/documents/${document.id}`);
 }
 

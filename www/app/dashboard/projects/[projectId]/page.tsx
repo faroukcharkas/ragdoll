@@ -1,7 +1,7 @@
 import { getProject } from "@/actions/projects";
 import { Suspense } from "react";
 import { DashboardHeader } from "@/components/dashboard/header/header";
-import { ChevronRight, FileText, Key } from "lucide-react";
+import { ChevronRight, FileText, Key, Shapes } from "lucide-react";
 import { Database } from "lucide-react";
 
 import Link from "next/link";
@@ -47,7 +47,7 @@ async function ProjectNavigationGrid({ projectId }: { projectId: string }) {
         <Card className="hover:bg-muted hover:shadow-md cursor-pointer h-40 flex flex-col">
           <CardHeader className="flex justify-between flex-row items-center">
             <CardTitle className="text-lg font-semibold font-display flex items-center gap-2">
-              <Database className="w-4 h-4" />
+              <Shapes className="w-4 h-4" />
               Metadata Schemas
             </CardTitle>
             <ChevronRight className="w-4 h-4 !m-0" />

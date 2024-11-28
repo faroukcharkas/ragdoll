@@ -9,11 +9,11 @@ export default {
   ],
   theme: {
   	extend: {
-      fontFamily: {
-        sans: ["var(--font-inter)"],
-        display: ["var(--font-space-grotesk)"],
-      },
-      colors: {
+  		fontFamily: {
+  			sans: ["var(--font-inter)"],
+  			display: ["var(--font-space-grotesk)"]
+  		},
+  		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
