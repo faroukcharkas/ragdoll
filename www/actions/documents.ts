@@ -41,14 +41,14 @@ export async function getDocument(documentId: number, projectId: number): Promis
   return documentSchema.parse(documentData);
 }
 
-export async function createDocument({ title, body, projectId, splitType, metadata }: { title: string, body: string, projectId: number, splitType: string, metadata: Record<string, string> }) {
+export async function createDocument({ title, body, projectId, splitType, text_payload, metadata_schema_id }: { title: string, body: string, projectId: number, splitType: string, text_payload: Record<string, string>, metadata_schema_id: number }) {
   const supabase = await createClient();
 
   const { data, error } = await supabase.from("document").insert({
     title,
     body,
     project_id: projectId,
-    metadata: JSON.stringify(metadata),
+    metadata_schema_id,
   }).select().single();
 
   if (error) {
@@ -64,14 +64,14 @@ export async function createDocument({ title, body, projectId, splitType, metada
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ document_id: data.id, split_type: splitType }),
+    body: JSON.stringify({ document_id: data.id, split_type: splitType, text_payload: JSON.stringify(text_payload), metadata_schema_id }),
   });
 
   return data;
 }
 
-export async function createDocumentAndRedirect({ body, projectId, splitType, title, metadata }: { body: string, projectId: number, splitType: string, title: string, metadata: Record<string, string> }) {
-  const document = await createDocument({ body, projectId, splitType, title, metadata });
+export async function createDocumentAndRedirect({ body, projectId, splitType, title, text_payload, metadata_schema_id }: { body: string, projectId: number, splitType: string, title: string, text_payload: Record<string, string>, metadata_schema_id: number }) {
+  const document = await createDocument({ body, projectId, splitType, title, text_payload, metadata_schema_id });
   redirect(`/dashboard/projects/${projectId}/documents/${document.id}`);
 }
 

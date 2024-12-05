@@ -121,6 +121,11 @@ export default function NewDocumentForm({
       projectId,
       splitType: data.splitType,
       title: data.title,
+      text_payload: data.customTextMetadataFields.reduce((acc, field) => {
+        acc[field.name] = field.value;
+        return acc;
+      }, {} as Record<string, string>),
+      metadata_schema_id: Number(data.metadataSchemaId),
     });
     setIsLoading(false);
   }
