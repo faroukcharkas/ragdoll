@@ -13,3 +13,5 @@ class DocumentInput(BaseModel):
 
 class CreateDocumentInput(DocumentInput):
     split_type: SplitType
+    metadata_schema_id: int
+    schema_payload: dict

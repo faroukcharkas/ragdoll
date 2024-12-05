@@ -40,8 +40,8 @@ class ChunkTable:
                 CreateChunkInput(
                     id=chunk_vector.id,
                     document_id=document_id,
-                    content=chunk_vector.metadata.text,
-                    metadata=chunk_vector.metadata.model_dump(),
+                    content=chunk_vector.chunk.text,
+                    metadata=chunk_vector.chunk.metadata,
                 ).model_dump()
             )
         await self.table.insert(chunks_to_insert).execute()
