@@ -59,12 +59,15 @@ export async function createDocument({ title, body, projectId, splitType, text_p
     throw new Error("Failed to create document");
   }
 
+  console.log("Creating document");
+  console.log({ document_id: data.id, split_type: splitType.toLowerCase(), schema_payload: text_payload, metadata_schema_id });
+
   await fetch(`${process.env.BACKEND_URL}/document/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ document_id: data.id, split_type: splitType, text_payload: JSON.stringify(text_payload), metadata_schema_id }),
+    body: JSON.stringify({ document_id: data.id, split_type: splitType.toLowerCase(), schema_payload: text_payload, metadata_schema_id }),
   });
 
   return data;
