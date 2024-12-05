@@ -4,6 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import DocumentCard from "./parts/document-card";
 import { NewDocument } from "./parts/new-document";
 import { DashboardHeader } from "@/components/dashboard/header/header";
+import { PageHeader, PageTitle } from "@/components/page";
 
 function DocumentGridSkeleton() {
   return (
@@ -63,6 +64,9 @@ export default async function DocumentsPage({
           },
         ]}
       />
+      <PageHeader>
+        <PageTitle>Documents</PageTitle>
+      </PageHeader>
       <DocumentGrid projectId={projectId} />
     </>
   );

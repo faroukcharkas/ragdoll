@@ -41,15 +41,14 @@ export async function getDocument(documentId: number, projectId: number): Promis
   return documentSchema.parse(documentData);
 }
 
-export async function createDocument({ title, body, url, description, projectId, splitType }: { title: string, body: string, url: string, description: string, projectId: number, splitType: string }) {
+export async function createDocument({ title, body, projectId, splitType, metadata }: { title: string, body: string, projectId: number, splitType: string, metadata: Record<string, string> }) {
   const supabase = await createClient();
 
   const { data, error } = await supabase.from("document").insert({
     title,
     body,
-    url,
-    description,
     project_id: projectId,
+    metadata: JSON.stringify(metadata),
   }).select().single();
 
   if (error) {
@@ -71,8 +70,8 @@ export async function createDocument({ title, body, url, description, projectId,
   return data;
 }
 
-export async function createDocumentAndRedirect({ body, projectId }: { body: string, projectId: number }) {
-  const document = await createDocument({ body, projectId });
+export async function createDocumentAndRedirect({ body, projectId, splitType, title, metadata }: { body: string, projectId: number, splitType: string, title: string, metadata: Record<string, string> }) {
+  const document = await createDocument({ body, projectId, splitType, title, metadata });
   redirect(`/dashboard/projects/${projectId}/documents/${document.id}`);
 }
 

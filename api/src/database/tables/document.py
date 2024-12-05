@@ -12,26 +12,15 @@ class Document(BaseModel):
     id: int
     title: str
     body: str
-    url: Optional[str] = ""
     project_id: int
-    description: Optional[str] = ""
+    metadata_schema_id: int
 
-
-class CreateDocumentInput(BaseModel):
-    title: str
-    body: str
-    url: Optional[str] = ""
-    description: Optional[str] = ""
 
 
 class DocumentTable:
     def __init__(self, supabase_client: AsyncClient):
         self.supabase_client = supabase_client
         self.table = self.supabase_client.table("document")
-
-    async def create(self, document: CreateDocumentInput) -> Document:
-        response = await self.table.insert(document.model_dump()).execute()
-        return Document(**response.data[0])
 
     async def read_using_id(self, id: int) -> Document:
         response = await self.table.select("*").eq("id", id).execute()

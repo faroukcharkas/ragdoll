@@ -12,6 +12,8 @@ import { Suspense } from "react";
 import { getMetadataSchemas } from "@/actions/metadata-schemas";
 import { MetadataSchema, MetadataSchemaField } from "@/schema/metadata-schemas";
 import NewMetadataSchema from "./parts/new-metadata-schema";
+import { PageHeader, PageTitle } from "@/components/page";
+import { Frown } from "lucide-react";
 
 function MetadataSchemaTableRowSkeleton() {
   return (
@@ -45,9 +47,9 @@ function MetadataSchemaTableRow({
     <TableRow>
       <TableCell>{metadataSchema.name}</TableCell>
       <TableCell>
-        {metadataSchema.schema.map((field: MetadataSchemaField) => (
-          <div className="font-mono" key={field.key}>
-            {field.key}: {field.value}
+        {metadataSchema.fields.map((field: MetadataSchemaField) => (
+          <div className="font-mono" key={field.name}>
+            {field.name}: {field.value}
           </div>
         ))}
       </TableCell>
@@ -57,7 +59,6 @@ function MetadataSchemaTableRow({
 
 async function FetchedMetadataSchemas({ projectId }: { projectId: number }) {
   const metadataSchemas: MetadataSchema[] = await getMetadataSchemas(projectId);
-  console.log(metadataSchemas);
   return (
     <>
       {metadataSchemas.map((metadataSchema) => (
@@ -66,6 +67,12 @@ async function FetchedMetadataSchemas({ projectId }: { projectId: number }) {
           metadataSchema={metadataSchema}
         />
       ))}
+      {metadataSchemas.length === 0 && (
+        <p className="text-sm text-muted-foreground flex items-center gap-2">
+          <Frown className="w-4 h-4" />
+          No metadata schemas found. Create one to get started.
+        </p>
+      )}
     </>
   );
 }
@@ -76,7 +83,7 @@ async function MetadataSchemasTable({ projectId }: { projectId: number }) {
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
-          <TableHead>Schema</TableHead>
+          <TableHead>Fields</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -109,6 +116,9 @@ export default async function MetadataSchemasPage({
           },
         ]}
       />
+      <PageHeader>
+        <PageTitle>Metadata Schemas</PageTitle>
+      </PageHeader>
       <div className="flex items-center justify-end">
         <NewMetadataSchema projectId={projectId} />
       </div>

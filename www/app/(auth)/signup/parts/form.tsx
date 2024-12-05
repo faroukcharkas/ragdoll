@@ -81,7 +81,7 @@ export function SignUpForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-4 pb-24"
       >
         <p className="text-xl font-semibold font-display text-center">
           Sign Up

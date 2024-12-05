@@ -33,13 +33,10 @@ export async function createMetadataSchema(
   fields: MetadataSchemaField[],
   name: string,
 ) {
-  console.log(fields);
-  console.log(name);
-  console.log(projectId);
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("metadata_schema")
-    .insert({ project_id: projectId, name, schema: fields });
+    .insert({ project_id: projectId, name, fields });
   if (error) {
     throw error;
   }
@@ -50,6 +47,13 @@ export async function createMetadataSchemaAndRedirect(
   fields: MetadataSchemaField[],
   name: string,
 ) {
-  await createMetadataSchema(projectId, fields, name);
-  redirect(`/dashboard/projects/${projectId}/metadata-schemas`);
+  let redirectPath = `/dashboard/projects/${projectId}/metadata-schemas`;
+  try {
+    await createMetadataSchema(projectId, fields, name);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    redirect(redirectPath);
+  }
 }

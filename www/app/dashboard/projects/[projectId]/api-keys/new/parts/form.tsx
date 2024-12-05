@@ -93,7 +93,7 @@ export default function NewApiKeyForm({ projectId }: { projectId: number }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-2xl w-full flex flex-col gap-10"
+        className="max-w-2xl w-full flex flex-col gap-10 pb-24"
       >
         <NewApiKeyFormHeader />
         <NewApiKeyFormFields>

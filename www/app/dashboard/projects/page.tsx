@@ -4,6 +4,7 @@ import { getProjects } from "@/actions/projects";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DashboardHeader } from "@/components/dashboard/header/header";
+import { PageHeader, PageTitle } from "@/components/page";
 
 async function ProjectGridSkeleton() {
   return (
@@ -44,6 +45,9 @@ export default function ProjectsPage() {
       <DashboardHeader
         breadcrumbs={[{ label: "Projects", href: "/dashboard/projects" }]}
       />
+      <PageHeader>
+        <PageTitle>Projects</PageTitle>
+      </PageHeader>
       <ProjectGrid />
     </>
   );

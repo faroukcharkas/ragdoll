@@ -32,7 +32,6 @@ async function RenderedDocument({
     <div className="flex flex-col gap-4">
       <Control documentId={documentId} projectId={projectId} />
       <h1 className="text-2xl font-bold font-display">{document.title}</h1>
-      <p className="text-sm text-muted-foreground">{document.description}</p>
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger>Document Body</AccordionTrigger>
@@ -56,9 +55,14 @@ export default async function DocumentPage({
       <DashboardHeader
         breadcrumbs={[
           { label: "Projects", href: "/dashboard/projects" },
+          { label: "Project", href: `/dashboard/projects/${projectId}` },
           {
             label: "Documents",
             href: `/dashboard/projects/${projectId}/documents`,
+          },
+          {
+            label: "Document",
+            href: `/dashboard/projects/${projectId}/documents/${documentId}`,
           },
         ]}
       />

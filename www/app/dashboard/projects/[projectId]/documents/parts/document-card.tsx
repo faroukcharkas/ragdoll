@@ -17,7 +17,7 @@ export default function DocumentCard({ document }: { document: Document }) {
         </CardHeader>
         <CardContent className="flex-1 text-ellipsis">
           <p className="text-xs text-muted-foreground text-ellipsis">
-            {document.description}
+            {document.body.slice(0, 150)}...
           </p>
         </CardContent>
       </Card>

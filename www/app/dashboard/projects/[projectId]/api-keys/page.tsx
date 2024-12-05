@@ -2,7 +2,9 @@ import { DashboardHeader } from "@/components/dashboard/header/header";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -12,7 +14,8 @@ import { Suspense } from "react";
 import { getApiKeys } from "@/actions/api-keys";
 import { ApiKey } from "@/schema/api-keys";
 import NewApiKey from "./parts/new-api-key";
-
+import { PageHeader, PageTitle } from "@/components/page";
+import { Frown } from "lucide-react";
 function ApiKeyTableRowSkeleton() {
   return (
     <TableRow>
@@ -34,11 +37,11 @@ function ApiKeyTableRowSkeleton() {
 
 function ApiKeysTableSkeleton() {
   return (
-    <>
+    <TableBody>
       <ApiKeyTableRowSkeleton />
       <ApiKeyTableRowSkeleton />
       <ApiKeyTableRowSkeleton />
-    </>
+    </TableBody>
   );
 }
 
@@ -50,15 +53,24 @@ function ApiKeyTableRow({ apiKey }: { apiKey: ApiKey }) {
     </TableRow>
   );
 }
-
 async function FetchedApiKeys({ projectId }: { projectId: number }) {
   const apiKeys: ApiKey[] = await getApiKeys(projectId);
+
+  if (apiKeys.length === 0) {
+    return (
+      <TableCaption className="text-sm text-muted-foreground flex items-center justify-center gap-2">
+        <Frown className="w-4 h-4" />
+        No API keys found. Create one to get started.
+      </TableCaption>
+    );
+  }
+
   return (
-    <>
+    <TableBody>
       {apiKeys.map((apiKey) => (
         <ApiKeyTableRow key={apiKey.id} apiKey={apiKey} />
       ))}
-    </>
+    </TableBody>
   );
 }
 
@@ -71,11 +83,9 @@ async function ApiKeysTable({ projectId }: { projectId: number }) {
           <TableHead>Preview</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
-        <Suspense fallback={<ApiKeysTableSkeleton />}>
-          <FetchedApiKeys projectId={projectId} />
-        </Suspense>
-      </TableBody>
+      <Suspense fallback={<ApiKeysTableSkeleton />}>
+        <FetchedApiKeys projectId={projectId} />
+      </Suspense>
     </Table>
   );
 }
@@ -98,6 +108,9 @@ export default async function ApiKeysPage({
           },
         ]}
       />
+      <PageHeader>
+        <PageTitle>API Keys</PageTitle>
+      </PageHeader>
       <div className="flex items-center justify-end">
         <NewApiKey projectId={projectId} />
       </div>

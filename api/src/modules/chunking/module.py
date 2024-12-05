@@ -19,16 +19,19 @@ class ChunkingModule:
     async def split(
         self, document: Document, split_type: SplitType
     ) -> list[ChunkMetadata]:
-        # 1. Split the document into chunks
+        # 1. Initialize the tokenizer and splitter
         tokenizer = Tokenizer.from_pretrained("bert-base-uncased")
         splitter = TextSplitter.from_huggingface_tokenizer(tokenizer, 200)
+
+        # 2. Split the document into chunks
         chunks: list[str]
         if split_type == SplitType.SENTENCE:
             chunks: list[str] = document.body.split(".")
         else:
             # Semantic splitting is the default
             chunks: list[str] = splitter.chunks(document.body)
-        # 2. Create metadata for each chunk
+
+        # 3. Create metadata for each chunk
         split_result: list[ChunkMetadata] = []
         chunk: str
         for i, chunk in enumerate(chunks):
@@ -43,14 +46,17 @@ class ChunkingModule:
                 order=i,
             )
             split_result.append(metadata)
-        # 3. Return the metadata
+
+        # 4. Return the metadata
         return split_result
 
     async def embed(self, chunks: list[ChunkMetadata]) -> list[ChunkVector]:
         # 1. Prepare bulk embedding
         texts_to_embed: list[str] = [chunk.text for chunk in chunks]
+
         # 2. Embed the texts
         embeddings: list[list[float]] = await self.async_openai.embed(texts_to_embed)
+
         # 3. Return the vectors
         chunk_vectors: list[ChunkVector] = []
         for chunk, embedding in zip(chunks, embeddings):

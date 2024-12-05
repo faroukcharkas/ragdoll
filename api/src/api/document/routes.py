@@ -62,7 +62,7 @@ async def create(request: Request, input: CreateDocumentInput):
     )
 
     # 2. Chunk the document
-    chunks: list[ChunkMetadata] = await chunking_module.split(document=document, )
+    chunks: list[ChunkMetadata] = await chunking_module.split(document=document)
     vectors: list[ChunkVector] = await chunking_module.embed(chunks=chunks)
 
     # 3. Create the chunks in the database

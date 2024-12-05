@@ -77,6 +77,7 @@ function MetadataSchemaFieldRow({
         <Input
           value={field.name}
           placeholder="e.g. My Field"
+          className="font-mono"
           onChange={(e) => onNameChange(index, e.target.value)}
         />
       </TableCell>
@@ -216,19 +217,13 @@ export default function NewMetadataSchemaForm({
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
     setIsLoading(true);
-    try {
-      await createMetadataSchemaAndRedirect(
-        parseInt(projectId),
-        data.fields,
-        data.name
-      );
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    await createMetadataSchemaAndRedirect(
+      parseInt(projectId),
+      data.fields,
+      data.name
+    );
+    setIsLoading(false);
   }
 
   async function onNameChange(index: number, name: string) {
@@ -246,7 +241,7 @@ export default function NewMetadataSchemaForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-2xl w-full flex flex-col gap-10"
+        className="max-w-2xl w-full flex flex-col gap-10 pb-24"
       >
         <FormHeader>
           <FormTitle>New Metadata Schema</FormTitle>
