@@ -43,3 +43,11 @@ export async function createProject({ name, pineconeApiKey, pineconeIndexName }:
   }
   return data;
 }
+
+export async function updateProjectName(projectId: string, name: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project").update({ name }).eq("id", projectId);
+  if (error) {
+    throw error;
+  }
+}

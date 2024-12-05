@@ -14,6 +14,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ProjectTitle } from "./parts/project-title";
 
 async function ProjectSkeleton() {
   return (
@@ -82,11 +83,7 @@ async function ProjectNavigationGrid({ projectId }: { projectId: string }) {
 
 async function FetchedProject({ projectId }: { projectId: string }) {
   const project = await getProject(projectId);
-  return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold font-display">{project.name}</h1>
-    </div>
-  );
+  return <ProjectTitle projectId={projectId} projectName={project.name} />;
 }
 
 export default async function ProjectPage({
