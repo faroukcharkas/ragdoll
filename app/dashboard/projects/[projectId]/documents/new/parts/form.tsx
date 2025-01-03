@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { createDocumentAndRedirect } from "@/actions/documents";
 import { Fragment, useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { MetadataSchema, MetadataSchemaField } from "@/schema/metadata-schemas";
+import { MetadataSchema, MetadataSchemaField } from "@/types/metadata-schemas";
 import {
   Select,
   SelectContent,
@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { documentSplitTypeSchema } from "@/schema/documents";
+import { documentSplitTypeSchema } from "@/types/documents";
 import { Brain, MessageSquare, Text } from "lucide-react";
 
 const textInputField = z.object({

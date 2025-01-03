@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { login } from "@/actions/auth";
 import { toast } from "@/hooks/use-toast";
-import { authFormInputSchema } from "@/schema/auth";
+import { authFormInputSchema } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {

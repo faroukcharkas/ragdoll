@@ -4,7 +4,7 @@ import {
   MetadataSchema,
   MetadataSchemaField,
   metadataSchemaSchema,
-} from "@/schema/metadata-schemas";
+} from "@/types/metadata-schemas";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 

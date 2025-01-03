@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { Document } from "@/schema/documents";
+import { Document } from "@/types/documents";
 import { Edit } from "lucide-react";
 
 export default function DocumentCard({ document }: { document: Document }) {

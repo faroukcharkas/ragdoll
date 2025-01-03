@@ -1,6 +1,6 @@
 "use server";
 
-import { Project, projectSchema } from "@/schema/projects";
+import { Project, projectSchema } from "@/types/projects";
 import { createClient } from "@/utils/supabase/server";
 
 export async function getProjects(): Promise<Project[]> {

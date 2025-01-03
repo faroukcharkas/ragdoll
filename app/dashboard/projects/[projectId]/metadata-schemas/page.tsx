@@ -10,7 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { getMetadataSchemas } from "@/actions/metadata-schemas";
-import { MetadataSchema, MetadataSchemaField } from "@/schema/metadata-schemas";
+import { MetadataSchema, MetadataSchemaField } from "@/types/metadata-schemas";
 import NewMetadataSchema from "./parts/new-metadata-schema";
 import { PageHeader, PageTitle } from "@/components/page";
 import { Frown } from "lucide-react";

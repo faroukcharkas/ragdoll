@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { Document, documentSchema } from "@/schema/documents";
+import { Document, documentSchema } from "@/types/documents";
 import { redirect } from "next/navigation";
 
 export async function getDocuments(projectId: number): Promise<Document[]> {

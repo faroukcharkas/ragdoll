@@ -32,7 +32,7 @@ import {
 import {
   MetadataSchemaField,
   metadataSchemaFieldSchema,
-} from "@/schema/metadata-schemas";
+} from "@/types/metadata-schemas";
 import {
   Form,
   FormControl,
