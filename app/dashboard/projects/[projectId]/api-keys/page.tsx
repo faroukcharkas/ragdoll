@@ -12,7 +12,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { getApiKeys } from "@/actions/api-keys";
-import { ApiKey } from "@/schema/api-keys";
+import { ApiKey } from "@/types/api-keys";
 import NewApiKey from "./parts/new-api-key";
 import { PageHeader, PageTitle } from "@/components/page";
 import { Frown } from "lucide-react";

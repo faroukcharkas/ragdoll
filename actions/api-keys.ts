@@ -1,6 +1,6 @@
 "use server";
 
-import { apiKeySchema, ApiKey } from "@/schema/api-keys";
+import { apiKeySchema, ApiKey } from "@/types/api-keys";
 import { createClient } from "@/utils/supabase/server";
 import sha256 from "sha256";
 import { randomBytes } from "crypto";
