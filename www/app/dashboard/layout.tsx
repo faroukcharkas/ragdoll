@@ -5,6 +5,7 @@ import { User } from "@/types/user";
 import { redirect } from "next/navigation";
 import { getProjectMap } from "@/actions/projects";
 import { ProjectMap } from "@/types/projects";
+import { DashboardHeader } from "./parts/header";
 
 export default async function DashboardLayout({
   children,

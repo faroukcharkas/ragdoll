@@ -1,6 +1,6 @@
 import { getProject } from "@/actions/projects";
 import { Suspense } from "react";
-import { DashboardHeader } from "@/app/dashboard/parts/header/header";
+import { DashboardHeader } from "@/app/dashboard/parts/header";
 import { ChevronRight, FileText, Key, Shapes } from "lucide-react";
 import { Database } from "lucide-react";
 

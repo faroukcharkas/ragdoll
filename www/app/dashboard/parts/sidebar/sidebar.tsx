@@ -4,18 +4,6 @@ import * as React from "react";
 import { User } from "@/types/user";
 import { NavProjects } from "./parts/nav-projects";
 import { ProjectMap } from "@/types/projects";
-import {
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/public/logo.svg";
@@ -25,7 +13,6 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ActiveProject } from "./parts/active-project";

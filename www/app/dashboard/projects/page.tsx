@@ -3,7 +3,7 @@ import ProjectCard from "./parts/project-card";
 import { getProjects } from "@/actions/projects";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DashboardHeader } from "@/app/dashboard/parts/header/header";
+import { DashboardHeader } from "@/app/dashboard/parts/header";
 import { PageHeader, PageTitle } from "@/components/page";
 
 async function ProjectGridSkeleton() {

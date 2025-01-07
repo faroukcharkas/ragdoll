@@ -1,5 +1,5 @@
 import { getDocument } from "@/actions/documents";
-import { DashboardHeader } from "@/app/dashboard/parts/header/header";
+import { DashboardHeader } from "@/app/dashboard/parts/header";
 import Control from "./parts/control";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
