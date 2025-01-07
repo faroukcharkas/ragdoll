@@ -1,11 +1,8 @@
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/app/dashboard/parts/sidebar/sidebar";
 import { getUser } from "@/actions/auth";
-import { User } from "@/types/user";
 import { redirect } from "next/navigation";
 import { getProjectMap } from "@/actions/projects";
-import { ProjectMap } from "@/types/projects";
-import { DashboardHeader } from "./parts/header";
 
 export default async function DashboardLayout({
   children,
