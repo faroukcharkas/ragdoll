@@ -1,5 +1,5 @@
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { DashboardSidebar } from "@/components/dashboard/sidebar/sidebar";
+import { DashboardSidebar } from "@/app/dashboard/parts/sidebar/sidebar";
 import { getUser } from "@/actions/auth";
 import { User } from "@/types/user";
 import { redirect } from "next/navigation";

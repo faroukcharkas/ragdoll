@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import DocumentCard from "./parts/document-card";
 import { NewDocument } from "./parts/new-document";
-import { DashboardHeader } from "@/components/dashboard/header/header";
+import { DashboardHeader } from "@/app/dashboard/parts/header/header";
 import { PageHeader, PageTitle } from "@/components/page";
 
 function DocumentGridSkeleton() {

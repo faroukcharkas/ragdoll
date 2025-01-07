@@ -1,4 +1,4 @@
-import { DashboardHeader } from "@/components/dashboard/header/header";
+import { DashboardHeader } from "@/app/dashboard/parts/header/header";
 import NewMetadataSchemaForm from "./parts/form";
 
 export default async function NewMetadataSchemaPage({
