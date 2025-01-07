@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
+import { User, userSchema } from '@/types/user';
 
 export type AuthInput = {
   email: string;
@@ -66,4 +67,28 @@ export async function logOut() {
 
   revalidatePath("/", "layout");
   redirect("/login");
+}
+
+export async function getUser(): Promise<User | null> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return null;
+  }
+
+  const { data: userData } = await supabase.from("user").select("*").eq("id", user.id).single();
+
+  if (!userData) {
+    return null;
+  }
+
+  return userSchema.parse({
+    id: user.id,
+    email: user.email,
+    firstName: userData.first_name,
+    lastName: userData.last_name,
+  });
 }

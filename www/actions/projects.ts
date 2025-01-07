@@ -1,6 +1,6 @@
 "use server";
 
-import { Project, projectSchema } from "@/schema/projects";
+import { Project, ProjectMap, projectSchema } from "@/types/projects";
 import { createClient } from "@/utils/supabase/server";
 
 export async function getProjects(): Promise<Project[]> {
@@ -13,8 +13,15 @@ export async function getProjects(): Promise<Project[]> {
   if (error) {
     throw error;
   }
-  console.log(data);
   return projectSchema.array().parse(data);
+}
+
+export async function getProjectMap(): Promise<ProjectMap> {
+  const projects = await getProjects();
+  return projects.reduce((acc, project) => {
+    acc[project.id] = project;
+    return acc;
+  }, {} as ProjectMap);
 }
 
 export async function getProject(projectId: string): Promise<Project> {

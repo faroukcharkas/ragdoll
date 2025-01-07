@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Project } from "@/schema/projects";
+import { Project } from "@/types/projects";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 export default function ProjectCard({ project }: { project: Project }) {

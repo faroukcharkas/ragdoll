@@ -1,6 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { User } from "@/types/user";
+import { NavProjects } from "./parts/nav-projects";
+import { ProjectMap } from "@/types/projects";
 import {
   BookOpen,
   Bot,
@@ -25,43 +28,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { MainGroup } from "./parts/main-group";
+import { ActiveProject } from "./parts/active-project";
 import { UserMenu } from "./parts/user-menu";
-import { useParams } from "next/navigation";
-const data = {
-  user: {
-    name: "User Settings",
-    email: "Manage account",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Projects",
-      url: "/dashboard/projects",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "Documents",
-          url: "#",
-        },
-        {
-          title: "Metadata Schemas",
-          url: "#",
-        },
-        {
-          title: "API Keys",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
 
 export function DashboardSidebar({
+  user,
+  projectMap,
   ...props
-}: React.ComponentProps<typeof Sidebar>) {
-  const params = useParams();
+}: React.ComponentProps<typeof Sidebar> & {
+  user: User;
+  projectMap: ProjectMap;
+}) {
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -74,10 +51,11 @@ export function DashboardSidebar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <MainGroup items={data.navMain} />
+        <ActiveProject projectMap={projectMap} />
+        <NavProjects projects={Object.values(projectMap)} />
       </SidebarContent>
       <SidebarFooter>
-        <UserMenu user={data.user} />
+        <UserMenu user={user} />
       </SidebarFooter>
     </Sidebar>
   );
