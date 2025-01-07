@@ -17,6 +17,7 @@ import {
   FormLabel,
   FormControl,
 } from "@/components/ui/form";
+import CustomButton from "@/components/custom/button";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -96,9 +97,7 @@ export function LoginForm() {
             )}
           />
         </LoginFormFields>
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Log In"}
-        </Button>
+        <CustomButton type="submit" disabled={isLoading} label="Log In" />
       </form>
     </Form>
   );

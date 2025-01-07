@@ -1,6 +1,6 @@
 "use server";
 
-import { DashboardHeader } from "@/app/dashboard/parts/header/header";
+import { DashboardHeader } from "@/app/dashboard/parts/header";
 import NewDocumentForm from "./parts/form";
 import { getMetadataSchemas } from "@/actions/metadata-schemas";
 import { Suspense } from "react";

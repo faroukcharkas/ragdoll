@@ -1,4 +1,4 @@
-import { DashboardHeader } from "@/app/dashboard/parts/header/header";
+import { DashboardHeader } from "@/app/dashboard/parts/header";
 import NewApiKeyForm from "./parts/form";
 
 export default async function NewApiKeyPage({
