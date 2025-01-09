@@ -1,6 +1,5 @@
 "use server";
 
-import { redirectSafely } from "@/lib/redirect";
 import { Project, ProjectMap, projectSchema } from "@/types/projects";
 import { createClient } from "@/utils/supabase/server";
 import { permanentRedirect, redirect } from "next/navigation";
