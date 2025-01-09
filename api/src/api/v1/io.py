@@ -13,4 +13,4 @@ class GetRelevantDocumentInput(BaseModel):
 
 
 class GetRelevantDocumentOutput(BaseModel):
-    document: Document
+    document: Document | None

@@ -31,6 +31,7 @@ async def get_relevant_document(
         project_id
     )
     document_titles: list[str] = [doc.title for doc in documents]
+    document_titles.append("NONE_OF_THE_ABOVE")
     document_name: str = await ai.select_from_enum_options(
         SelectFromStringOptionsParams(
             llm_model_name="gpt-4o",
@@ -45,7 +46,9 @@ async def get_relevant_document(
         )
     )
 
-    document: Document = next(
+    document: Document | None = next(
         (doc for doc in documents if doc.title == document_name), None
     )
+    if document_name == "NONE_OF_THE_ABOVE" or document is None:
+        return GetRelevantDocumentOutput(document=None)
     return GetRelevantDocumentOutput(document=document)
