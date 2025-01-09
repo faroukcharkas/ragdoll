@@ -7,6 +7,7 @@ from fastapi import FastAPI
 # internal
 from src.globals.environment import Environment
 from src.api.document.routes import document_router
+from src.api.v1.routes import v1_router
 from src.modules.chunking.module import ChunkingModule
 from src.providers.ai.async_openai import AsyncOpenAIProvider
 from src.database.client import DatabaseClient
@@ -57,3 +58,4 @@ async def root():
 
 
 app.include_router(document_router)
+app.include_router(v1_router)
