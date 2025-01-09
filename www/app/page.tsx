@@ -16,7 +16,7 @@ export default async function Home() {
         </p>
         <p className="text-sm text-muted-foreground font-sans text-center font-semibold">
           This is being developed and maintained by farouk.charkas@gmail.com and
-          is currently in alpha.
+          is currently in public beta.
         </p>
         <div className="flex gap-4">
           <Link href="/login">
