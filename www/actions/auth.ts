@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
+import { permanentRedirect, redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
 import { User, userSchema } from '@/types/user';
@@ -21,7 +21,7 @@ export async function login({ email, password }: AuthInput) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/dashboard");
+  permanentRedirect("/dashboard");
 }
 
 export async function signup({ email, password, firstName, lastName }: AuthInput & { firstName: string; lastName: string }) {
@@ -46,7 +46,7 @@ export async function signup({ email, password, firstName, lastName }: AuthInput
   });
 
   revalidatePath("/", "layout");
-  redirect("/dashboard");
+  permanentRedirect("/dashboard");
 }
 
 
@@ -57,7 +57,7 @@ export async function redirectToDashboardIfSignedIn() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect("/dashboard");
+    permanentRedirect("/dashboard");
   }
 }
 
@@ -66,7 +66,7 @@ export async function logOut() {
   await supabase.auth.signOut();
 
   revalidatePath("/", "layout");
-  redirect("/login");
+  permanentRedirect("/login");
 }
 
 export async function getUser(): Promise<User | null> {

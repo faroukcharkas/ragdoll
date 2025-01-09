@@ -36,10 +36,8 @@ export function LoginForm() {
       password: "",
     },
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(data: z.infer<typeof formSchema>) {
-    setIsLoading(true);
     if (!authFormInputSchema.safeParse(data).success) {
       toast({
         title: "Invalid email or password",
@@ -48,11 +46,13 @@ export function LoginForm() {
       });
       return;
     } else {
-      setIsLoading(true);
       try {
         await login(data);
       } catch (error) {
-        setIsLoading(false);
+        if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+          // dirtttyy code
+          return;
+        }
         if (error instanceof Error) {
           toast({ title: "Error", description: error.message });
         } else {
@@ -66,7 +66,7 @@ export function LoginForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col gap-4 pb-24"
+        className="flex flex-col gap-4"
       >
         <p className="text-xl font-semibold font-display text-center">Log In</p>
         <LoginFormFields>
@@ -97,7 +97,11 @@ export function LoginForm() {
             )}
           />
         </LoginFormFields>
-        <CustomButton type="submit" disabled={isLoading} label="Log In" />
+        <CustomButton
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          label="Log In"
+        />
       </form>
     </Form>
   );

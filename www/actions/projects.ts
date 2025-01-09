@@ -1,7 +1,9 @@
 "use server";
 
+import { redirectSafely } from "@/lib/redirect";
 import { Project, ProjectMap, projectSchema } from "@/types/projects";
 import { createClient } from "@/utils/supabase/server";
+import { permanentRedirect, redirect } from "next/navigation";
 
 export async function getProjects(): Promise<Project[]> {
   const supabase = await createClient();
@@ -33,7 +35,7 @@ export async function getProject(projectId: string): Promise<Project> {
   return projectSchema.parse(data);
 }
 
-export async function createProject({ name, pineconeApiKey, pineconeIndexName }: { name: string, pineconeApiKey: string, pineconeIndexName: string }) {
+export async function createProject({ name, pineconeApiKey, pineconeIndexName, redirectToProject = true }: { name: string, pineconeApiKey: string, pineconeIndexName: string, redirectToProject?: boolean }) {
   const supabase = await createClient();
   const currentUser = await supabase.auth.getUser();
   if (!currentUser) {
@@ -41,12 +43,18 @@ export async function createProject({ name, pineconeApiKey, pineconeIndexName }:
   }
   const { data, error } = await supabase.from("project").insert({
     name,
-    pinecone_api_key: pineconeApiKey,
+    pinecone_api_key: pineconeApiKey, 
     index_name: pineconeIndexName,
-  });
+  }).select().single();
   
   if (error) {
     throw error;
+  }
+  if (!data) {
+    throw new Error("Project not found");
+  }
+  if (redirectToProject) {
+    permanentRedirect(`/dashboard/projects/${data.id}`);
   }
   return data;
 }

@@ -13,7 +13,10 @@ export default async function LoginPage() {
       <div className="w-full p-4">
         <LoginForm />
       </div>
-      <Link href="/signup" className="text-sm text-center">
+      <Link
+        href="/signup"
+        className="text-sm text-center text-muted-foreground underline hover:text-foreground"
+      >
         No account? Sign up
       </Link>
     </div>

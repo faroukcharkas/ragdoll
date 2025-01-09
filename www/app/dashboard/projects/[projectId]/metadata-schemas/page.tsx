@@ -68,10 +68,17 @@ async function FetchedMetadataSchemas({ projectId }: { projectId: number }) {
         />
       ))}
       {metadataSchemas.length === 0 && (
-        <p className="text-sm text-muted-foreground flex items-center gap-2">
-          <Frown className="w-4 h-4" />
-          No metadata schemas found. Create one to get started.
-        </p>
+        <TableRow>
+          <TableCell
+            colSpan={2}
+            className="text-center flex items-center justify-center"
+          >
+            <p className="text-sm text-muted-foreground flex items-center gap-2">
+              <Frown className="w-4 h-4" />
+              No metadata schemas found. Create one to get started.
+            </p>
+          </TableCell>
+        </TableRow>
       )}
     </>
   );

@@ -21,7 +21,7 @@ import { DashboardHeader } from "@/app/dashboard/parts/header";
 const formSchema = z.object({
   name: z.string().min(1),
   pineconeApiKey: z.string().min(10),
-  pineconeIndexName: z.string().min(1),
+  pineconeIndexName: z.string().min(2),
 });
 
 function NewProjectFormHeader() {
@@ -57,8 +57,10 @@ function NewProjectForm() {
         name: data.name,
         pineconeApiKey: data.pineconeApiKey,
         pineconeIndexName: data.pineconeIndexName,
+        redirectToProject: true,
       });
     } catch (error) {
+      console.log("error", error);
       console.error(error);
     } finally {
       setIsLoading(false);

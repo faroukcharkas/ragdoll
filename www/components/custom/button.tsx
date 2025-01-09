@@ -28,6 +28,8 @@ export default function CustomButton({
   };
   const [isLoading, setIsLoading] = useState(props.disabled);
 
+  console.log("isLoading", isLoading);
+  console.log("props.disabled", props.disabled);
   return (
     <Button
       className={cn(
@@ -35,7 +37,7 @@ export default function CustomButton({
         variantStyles[variant as keyof typeof variantStyles],
         className
       )}
-      onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+      onClick={async (event: React.MouseEvent<HTMLButtonElement>) => {
         setIsLoading(true);
         if (props.onClick) {
           props.onClick(event);

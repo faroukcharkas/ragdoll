@@ -68,6 +68,10 @@ export function SignUpForm() {
         });
       } catch (error) {
         setIsLoading(false);
+        if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+          // dirtttyy code
+          return;
+        }
         if (error instanceof Error) {
           toast({ title: "Error", description: error.message });
         } else {
@@ -81,7 +85,7 @@ export function SignUpForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col gap-4 pb-24"
+        className="flex flex-col gap-4"
       >
         <p className="text-xl font-semibold font-display text-center">
           Sign Up

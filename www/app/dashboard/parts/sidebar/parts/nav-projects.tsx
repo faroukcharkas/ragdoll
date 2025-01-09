@@ -33,16 +33,24 @@ export function NavProjects({ projects }: { projects: Project[] }) {
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <a href={`/dashboard/projects/${item.id}`}>
-                <Folder className="text-muted-foreground" />
-                <span>{item.name}</span>
-              </a>
-            </SidebarMenuButton>
+        {projects.length === 0 ? (
+          <SidebarMenuItem>
+            <span className="text-sm text-muted-foreground px-2">
+              No projects yet
+            </span>
           </SidebarMenuItem>
-        ))}
+        ) : (
+          projects.map((item) => (
+            <SidebarMenuItem key={item.name}>
+              <SidebarMenuButton asChild>
+                <a href={`/dashboard/projects/${item.id}`}>
+                  <Folder className="text-muted-foreground" />
+                  <span>{item.name}</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))
+        )}
       </SidebarMenu>
     </SidebarGroup>
   );
