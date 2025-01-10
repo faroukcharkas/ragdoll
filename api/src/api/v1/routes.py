@@ -25,13 +25,23 @@ async def get_relevant_document(
     project_id: int = RequireValidAPIKey,
 ):
     database_client: DatabaseClient = request.app.state.database_client
-    ai: AsyncOpenAIProvider = request.app.state.ai
+    ai: AsyncOpenAIProvider = request.app.state.async_openai
 
     documents: list[Document] = await database_client.Document.read_using_project_id(
-        project_id
+        project_id=project_id
     )
+
     document_titles: list[str] = [doc.title for doc in documents]
     document_titles.append("NONE_OF_THE_ABOVE")
+
+    messages: list[CoreMessage] = [
+        CoreMessage(
+            role="system",
+            content=f"Select the most relevant document related to the user's question. Keep in mind that today is {datetime.now().strftime('%B %d, %Y')}",
+        ),
+    ]
+    messages = messages + input.messages
+
     document_name: str = await ai.select_from_enum_options(
         SelectFromStringOptionsParams(
             llm_model_name="gpt-4o",
@@ -40,8 +50,8 @@ async def get_relevant_document(
                     role="system",
                     content=f"Select the most relevant document related to the user's question. Keep in mind that today is {datetime.now().strftime('%B %d, %Y')}",
                 ),
-                CoreMessage(role="user", content=input.user_prompt),
-            ],
+            ]
+            + input.messages,
             options=document_titles,
         )
     )
@@ -51,4 +61,5 @@ async def get_relevant_document(
     )
     if document_name == "NONE_OF_THE_ABOVE" or document is None:
         return GetRelevantDocumentOutput(document=None)
+
     return GetRelevantDocumentOutput(document=document)
