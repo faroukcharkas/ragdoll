@@ -60,6 +60,7 @@ async def get_relevant_document(
         (doc for doc in documents if doc.title == document_name), None
     )
     if document_name == "NONE_OF_THE_ABOVE" or document is None:
+        print("NONE_OF_THE_ABOVE")
         return GetRelevantDocumentOutput(document=None)
 
     return GetRelevantDocumentOutput(document=document)
